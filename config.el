@@ -27,7 +27,8 @@
     elpy 
     material-theme
     flycheck
-    py-autopep8))
+    py-autopep8
+    lua-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -39,5 +40,6 @@
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
+
 (elpy-enable)
 
