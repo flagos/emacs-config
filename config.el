@@ -43,4 +43,4 @@
 
 (elpy-enable)
 
-(setq mouse-yank-at-point t)
+(setq mouse-yank-at-point nil)
