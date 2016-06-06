@@ -52,3 +52,5 @@
 ;; ecb configuration
 '(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
 '(ecb-tip-of-the-day nil))
+
+ (global-auto-revert-mode 1)
