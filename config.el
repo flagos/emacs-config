@@ -28,7 +28,8 @@
     material-theme
     flycheck
     py-autopep8
-    lua-mode))
+    lua-mode
+    markdown-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
