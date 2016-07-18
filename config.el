@@ -29,7 +29,8 @@
     flycheck
     py-autopep8
     lua-mode
-    markdown-mode))
+    markdown-mode
+    vlf))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -55,3 +56,5 @@
 '(ecb-tip-of-the-day nil))
 
  (global-auto-revert-mode 1)
+
+(require 'vlf-setup)
