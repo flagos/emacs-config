@@ -30,7 +30,8 @@
     py-autopep8
     lua-mode
     markdown-mode
-    vlf))
+    vlf
+    smex))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -58,3 +59,9 @@
  (global-auto-revert-mode 1)
 
 (require 'vlf-setup)
+
+(smex-initialize) ; 
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
