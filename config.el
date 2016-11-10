@@ -26,7 +26,7 @@
   '(better-defaults
     elpy 
     material-theme
-    spacemacs-theme
+    ;;spacemacs-theme
     flycheck
     py-autopep8
     lua-mode
@@ -67,3 +67,7 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+
+(electric-pair-mode t)
+(ido-mode t)
