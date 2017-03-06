@@ -24,7 +24,7 @@
 
 (defvar myPackages
   '(better-defaults
-    elpy 
+    elpy
     material-theme
     ;;spacemacs-theme
     flycheck
@@ -32,7 +32,8 @@
     lua-mode
     markdown-mode
     vlf
-    smex))
+    smex
+    magit))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -48,6 +49,12 @@
 
 (elpy-enable)
 
+(add-to-list 'load-path (file-name-directory load-file-name))
+(load "robot-mode.el")
+
+;;(load-file (concatenate (file-name-directory load-file-name) "/robot-mode.el"))
+(add-to-list 'auto-mode-alist '("\\.robot\\'" . robot-mode))
+
 (setq mouse-yank-at-point nil)
 (custom-set-variables
 ;; custom-set-variables was added by Custom.
@@ -62,7 +69,7 @@
 
 (require 'vlf-setup)
 
-(smex-initialize) ; 
+(smex-initialize) ;
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
