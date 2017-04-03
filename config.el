@@ -33,7 +33,9 @@
     markdown-mode
     vlf
     smex
-    magit))
+    magit
+    cl-lib
+    js2-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
