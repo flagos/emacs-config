@@ -35,7 +35,8 @@
     smex
     magit
     cl-lib
-    js2-mode))
+    js2-mode
+))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -81,3 +82,7 @@
 
 (electric-pair-mode t)
 (ido-mode t)
+
+
+;; javascript
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
