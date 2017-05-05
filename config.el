@@ -25,6 +25,7 @@
 (defvar myPackages
   '(better-defaults
     elpy
+    jedi
     material-theme
     ;;spacemacs-theme
     flycheck
@@ -66,7 +67,9 @@
 ;; If there is more than one, they won't work right.
 ;; ecb configuration
 '(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
-'(ecb-tip-of-the-day nil))
+'(ecb-tip-of-the-day nil)
+'(elpy-rpc-backend "jedi")
+)
 
  (global-auto-revert-mode 1)
 

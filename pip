@@ -1,1 +1,1 @@
-pip install jedi flake8 importmagic autopep8 rope
+pip install jedi flake8 importmagic autopep8 rope yapf
