@@ -39,6 +39,7 @@
     js2-mode
     web-mode
     which-key
+    groovy-mode
 ))
 
 (mapc #'(lambda (package)
@@ -110,4 +111,3 @@ by using nxml's indentation rules."
 
 ;; which-key
 (which-key-mode)
-
