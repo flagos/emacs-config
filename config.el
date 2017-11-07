@@ -53,6 +53,9 @@
 (load-theme 'material t) ;; load material theme
 ;;(load-theme 'spacemacs-dark t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+
 
 (elpy-enable)
 
