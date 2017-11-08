@@ -77,6 +77,8 @@
 '(elpy-rpc-backend "jedi")
 )
 
+(scroll-bar-mode -1)
+
  (global-auto-revert-mode 1)
 
 (require 'vlf-setup)
