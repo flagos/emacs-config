@@ -40,6 +40,7 @@
     web-mode
     which-key
     groovy-mode
+    multiple-cursors
 ))
 
 (mapc #'(lambda (package)
@@ -116,3 +117,8 @@ by using nxml's indentation rules."
 
 ;; which-key
 (which-key-mode)
+
+;; multiple-cursors
+(global-set-key (kbd "M-n") 'mc/mark-next-like-this)
+(global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "M-N") 'mc/mark-all-like-this)
