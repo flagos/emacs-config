@@ -41,6 +41,7 @@
     which-key
     groovy-mode
     multiple-cursors
+    iedit
 ))
 
 (mapc #'(lambda (package)
