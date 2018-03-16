@@ -1,18 +1,3 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("e97dbbb2b1c42b8588e16523824bc0cb3a21b91eefd6502879cf5baa1fa32e10" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "unknown" :slant normal :weight normal :width normal)))))
-
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -24,7 +9,7 @@
 
 (defvar myPackages
   '(better-defaults
-    elpy
+    ;;elpy
     jedi
     material-theme
     ;;spacemacs-theme
@@ -42,6 +27,9 @@
     groovy-mode
     multiple-cursors
     iedit
+    lsp-mode
+    lsp-python
+    company-lsp
 ))
 
 (mapc #'(lambda (package)
@@ -56,10 +44,10 @@
 ;;(load-theme 'spacemacs-dark t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+;;(menu-bar-mode -1)
 
 
-(elpy-enable)
+;;(elpy-enable)
 
 (add-to-list 'load-path (file-name-directory load-file-name))
 (load "robot-mode.el")
@@ -123,3 +111,19 @@ by using nxml's indentation rules."
 (global-set-key (kbd "M-n") 'mc/mark-next-like-this)
 (global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
 (global-set-key (kbd "M-N") 'mc/mark-all-like-this)
+
+
+;; lsp
+(require 'lsp-mode)
+(require 'lsp-python)
+(add-hook 'python-mode-hook #'lsp-python-enable)
+
+;; company for lsp
+(add-hook 'after-init-hook 'global-company-mode)
+(require 'company-lsp)
+(push 'company-lsp company-backends)
+
+(defun my-set-projectile-root ()
+  (when lsp--cur-workspace
+    (setq projectile-project-root (lsp--workspace-root lsp--cur-workspace))))
+(add-hook 'lsp-before-open-hook #'my-set-projectile-root)
