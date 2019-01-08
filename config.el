@@ -9,8 +9,9 @@
 
 (defvar myPackages
   '(better-defaults
-    elpy
-    jedi
+    lsp-mode
+    lsp-ui
+    company-lsp
     material-theme
     ;;spacemacs-theme
     flycheck
@@ -27,6 +28,7 @@
     groovy-mode
     multiple-cursors
     iedit
+    projectile
 ))
 
 (mapc #'(lambda (package)
@@ -43,8 +45,22 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+(add-hook 'after-init-hook 'global-company-mode)
 
-(elpy-enable)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
+(require 'lsp-mode)
+(add-hook 'python-mode-hook #'lsp)
+(add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
+
+(require 'lsp-ui)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+(require 'company-lsp)
+(push 'company-lsp company-backends)
 
 (add-to-list 'load-path (file-name-directory load-file-name))
 (load "robot-mode.el")
@@ -61,7 +77,6 @@
 ;; ecb configuration
 '(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
 '(ecb-tip-of-the-day nil)
-'(elpy-rpc-backend "jedi")
 )
 
 (scroll-bar-mode -1)
