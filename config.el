@@ -12,6 +12,7 @@
     lsp-mode
     lsp-ui
     company-lsp
+    elpy ;; for highlight-indentation-mode
     material-theme
     ;;spacemacs-theme
     flycheck
