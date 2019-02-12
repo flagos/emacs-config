@@ -29,6 +29,7 @@
     multiple-cursors
     iedit
     projectile
+    docker
 ))
 
 (mapc #'(lambda (package)
