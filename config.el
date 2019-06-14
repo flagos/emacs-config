@@ -138,3 +138,7 @@ by using nxml's indentation rules."
 (define-key input-decode-map "\e[1;2A" [S-up])
 (define-key input-decode-map "\e[1;2F" [S-end])
 (define-key input-decode-map "\e[1;2H" [S-home])
+
+
+;; selection-highlight
+ '(region ((t (:background "black" :inverse-video t)))))
