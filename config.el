@@ -149,3 +149,7 @@ by using nxml's indentation rules."
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 113 :width normal))))
  '(region ((t (:background "black" :inverse-video t)))))
+
+
+;; magit-popup
+(setq transient-enable-popup-navigation t)
