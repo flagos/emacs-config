@@ -80,6 +80,7 @@
 ;; ecb configuration
 '(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
 '(ecb-tip-of-the-day nil)
+'(elpy-rpc-backend "jedi")
 )
 
 (scroll-bar-mode -1)
@@ -153,3 +154,7 @@ by using nxml's indentation rules."
 
 ;; magit-popup
 (setq transient-enable-popup-navigation t)
+
+;; no snippet completion
+(setq company-lsp-enable-snippet nil)
+(setq lsp-enable-snippet nil)

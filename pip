@@ -1,1 +1,1 @@
-pip install python-language-server autopep8
+pip install python-language-server autopep8 flake8
