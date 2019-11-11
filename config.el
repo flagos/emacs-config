@@ -1,4 +1,3 @@
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -32,6 +31,8 @@
     iedit
     projectile
     docker
+    use-package
+    ccls
 ))
 
 (mapc #'(lambda (package)
@@ -158,3 +159,10 @@ by using nxml's indentation rules."
 ;; no snippet completion
 (setq company-lsp-enable-snippet nil)
 (setq lsp-enable-snippet nil)
+
+
+;; (require 'ccls)
+(setq ccls-executable "/snap/bin/ccls")  ;; snap install ccls
+(use-package ccls
+             :hook ((c-mode c++-mode objc-mode cuda-mode) .
+                    (lambda () (require 'ccls) (lsp))))
