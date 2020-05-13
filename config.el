@@ -162,7 +162,16 @@ by using nxml's indentation rules."
 
 
 ;; (require 'ccls)
-(setq ccls-executable "/snap/bin/ccls")  ;; snap install ccls
+;; (setq ccls-executable "/snap/bin/ccls")  ;; snap install ccls
+;; (use-package ccls
+;;              :hook ((c-mode c++-mode objc-mode cuda-mode) .
+;;                     (lambda () (require 'ccls) (lsp))))
+
 (use-package ccls
-             :hook ((c-mode c++-mode objc-mode cuda-mode) .
-                    (lambda () (require 'ccls) (lsp))))
+  :ensure t
+  :config
+  (setq ccls-executable "/snap/bin/ccls")
+  (setq lsp-prefer-flymake nil)
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
