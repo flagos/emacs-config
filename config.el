@@ -59,6 +59,7 @@
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
+;; (add-hook 'before-save-hook (lambda () (lsp-format-buffer)))
 
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
