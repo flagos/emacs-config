@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 pip install python-language-server autopep8
+=======
+pip install 'python-language-server[all]' autopep8 flake8
+>>>>>>> 7c7105a6d3d40903fc4761f90e800b51c5b515c8

@@ -1,7 +1,7 @@
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
+(setq package-check-signature nil)
 
 (package-initialize)
 (when (not package-archive-contents)
@@ -31,6 +31,11 @@
     iedit
     projectile
     docker
+<<<<<<< HEAD
+=======
+    use-package
+    ccls
+>>>>>>> 7c7105a6d3d40903fc4761f90e800b51c5b515c8
 ))
 
 (mapc #'(lambda (package)
@@ -48,6 +53,7 @@
 (menu-bar-mode -1)
 
 (add-hook 'after-init-hook 'global-company-mode)
+<<<<<<< HEAD
 
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -58,6 +64,19 @@
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
 
+=======
+
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
+(require 'lsp-mode)
+(add-hook 'python-mode-hook #'lsp)
+(add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
+;; (add-hook 'before-save-hook (lambda () (lsp-format-buffer)))
+
+>>>>>>> 7c7105a6d3d40903fc4761f90e800b51c5b515c8
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
@@ -141,4 +160,38 @@ by using nxml's indentation rules."
 
 
 ;; selection-highlight
+<<<<<<< HEAD
  '(region ((t (:background "black" :inverse-video t)))))
+=======
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 113 :width normal))))
+ '(region ((t (:background "black" :inverse-video t)))))
+
+
+;; magit-popup
+(setq transient-enable-popup-navigation t)
+
+;; no snippet completion
+(setq company-lsp-enable-snippet nil)
+(setq lsp-enable-snippet nil)
+
+
+;; (require 'ccls)
+;; (setq ccls-executable "/snap/bin/ccls")  ;; snap install ccls
+;; (use-package ccls
+;;              :hook ((c-mode c++-mode objc-mode cuda-mode) .
+;;                     (lambda () (require 'ccls) (lsp))))
+
+(use-package ccls
+  :ensure t
+  :config
+  (setq ccls-executable "/snap/bin/ccls")
+  (setq lsp-prefer-flymake nil)
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
+>>>>>>> 7c7105a6d3d40903fc4761f90e800b51c5b515c8

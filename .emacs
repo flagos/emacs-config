@@ -1,1 +1,1 @@
- (load-file "~/work/myemacs/config.el")
+ (load-file "~/project/emacs-config/config.el")
