@@ -11,10 +11,8 @@
   '(better-defaults
     lsp-mode
     lsp-ui
-    company-lsp
     elpy ;; for highlight-indentation-mode
     material-theme
-    ;;spacemacs-theme
     flycheck
     py-autopep8
     lua-mode
@@ -60,9 +58,6 @@
 
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-
-(require 'company-lsp)
-(push 'company-lsp company-backends)
 
 (add-to-list 'load-path (file-name-directory load-file-name))
 (load "robot-mode.el")
@@ -151,7 +146,3 @@ by using nxml's indentation rules."
 
 ;; magit-popup
 (setq transient-enable-popup-navigation t)
-
-;; no snippet completion
-(setq company-lsp-enable-snippet nil)
-(setq lsp-enable-snippet nil)
