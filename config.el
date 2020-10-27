@@ -15,6 +15,8 @@
     material-theme
     flycheck
     py-autopep8
+    python-black
+    py-isort
     lua-mode
     markdown-mode
     vlf
@@ -29,14 +31,13 @@
     iedit
     projectile
     docker
+    use-package
 ))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
       (package-install package)))
       myPackages)
-
-
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
@@ -58,6 +59,20 @@
 
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+(use-package lsp-mode
+  :config
+  (lsp-register-custom-settings
+   '(("pyls.plugins.pyls_mypy.enabled" t t)
+     ("pyls.plugins.pyls_mypy.live_mode" nil t)
+     ("pyls.plugins.pyls_black.enabled" t t)
+     ("pyls.plugins.pyls_isort.enabled" t t)))
+  :hook
+    ((python-mode . lsp)))
+
+(use-package python-black
+  :demand t
+  :after python)
 
 (add-to-list 'load-path (file-name-directory load-file-name))
 (load "robot-mode.el")
