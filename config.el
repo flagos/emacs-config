@@ -1,3 +1,4 @@
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -32,6 +33,8 @@
     projectile
     docker
     use-package
+    dockerfile-mode
+    docker-compose-mode
 ))
 
 (mapc #'(lambda (package)
@@ -60,6 +63,9 @@
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
+(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
 (use-package lsp-mode
   :config
   (lsp-register-custom-settings
@@ -73,6 +79,8 @@
 (use-package python-black
   :demand t
   :after python)
+
+(global-flycheck-mode)
 
 (add-to-list 'load-path (file-name-directory load-file-name))
 (load "robot-mode.el")
@@ -161,3 +169,6 @@ by using nxml's indentation rules."
 
 ;; magit-popup
 (setq transient-enable-popup-navigation t)
+
+(provide 'config)
+;;; config.el ends here
