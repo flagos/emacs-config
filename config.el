@@ -41,6 +41,7 @@
     counsel
     lsp-ivy
     counsel-projectile
+    pycoverage
 ))
 
 (mapc #'(lambda (package)
@@ -196,6 +197,24 @@ by using nxml's indentation rules."
 (counsel-mode)
 (counsel-projectile-mode)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
+
+;; Use C-j for immediate termination with the current value, and RET
+;; for continuing completion for that directory. This is the ido
+;; behaviour.
+(define-key ivy-minibuffer-map (kbd "C-j") #'ivy-immediate-done)
+(define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+
+
+;; pycoverage
+(require 'linum)
+(require 'pycoverage)
+
+(defun my-coverage ()
+  (interactive)
+  (when (derived-mode-p 'python-mode)
+    (progn
+      (linum-mode)
+      (pycoverage-mode))))
 
 (provide 'config)
 ;;; config.el ends here
