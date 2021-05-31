@@ -1,1 +1,1 @@
-pip install 'python-language-server[all]' autopep8 flake8 pyls-black pyls-isort pyls-mypy black-macchiato isort
+pip install 'python-lsp-server[all]' autopep8 flake8 pyls-black pyls-isort pyls-mypy black-macchiato isort

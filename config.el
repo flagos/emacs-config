@@ -35,6 +35,12 @@
     use-package
     dockerfile-mode
     docker-compose-mode
+    yasnippet
+    forge
+    python-pytest
+    counsel
+    lsp-ivy
+    counsel-projectile
 ))
 
 (mapc #'(lambda (package)
@@ -169,6 +175,27 @@ by using nxml's indentation rules."
 
 ;; magit-popup
 (setq transient-enable-popup-navigation t)
+
+
+;; yasnippet
+(yas-reload-all)
+(add-hook 'python-mode-hook #'yas-minor-mode)
+
+
+;; forge
+(with-eval-after-load 'magit
+  (require 'forge))
+
+(setq auth-sources '("~/.authinfo"))
+
+;; ivy
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
+
+(counsel-mode)
+(counsel-projectile-mode)
+(global-set-key (kbd "M-y") 'counsel-yank-pop)
 
 (provide 'config)
 ;;; config.el ends here
