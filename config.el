@@ -1,3 +1,6 @@
+;;; package --- Summary
+;;; Commentary:
+;;; Code:
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -42,6 +45,7 @@
     lsp-ivy
     counsel-projectile
     pycoverage
+    counsel-spotify
 ))
 
 (mapc #'(lambda (package)
@@ -150,6 +154,8 @@ by using nxml's indentation rules."
 (global-set-key (kbd "M-n") 'mc/mark-next-like-this)
 (global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
 (global-set-key (kbd "M-N") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c m c") 'mc/edit-lines)
+
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -190,13 +196,17 @@ by using nxml's indentation rules."
 (setq auth-sources '("~/.authinfo"))
 
 ;; ivy
-(ivy-mode 1)
+;; (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
 
-(counsel-mode)
+
 (counsel-projectile-mode)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-s") 'swiper-isearch)
+
 
 ;; Use C-j for immediate termination with the current value, and RET
 ;; for continuing completion for that directory. This is the ido
@@ -215,6 +225,9 @@ by using nxml's indentation rules."
     (progn
       (linum-mode)
       (pycoverage-mode))))
+
+(load-file "/home/vincent/project/emacs-config/private.el")
+
 
 (provide 'config)
 ;;; config.el ends here
