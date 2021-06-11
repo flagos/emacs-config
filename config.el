@@ -151,11 +151,13 @@ by using nxml's indentation rules."
 (which-key-mode)
 
 ;; multiple-cursors
+(require 'multiple-cursors)
 (global-set-key (kbd "M-n") 'mc/mark-next-like-this)
 (global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
 (global-set-key (kbd "M-N") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
-
+(add-to-list 'mc/unsupported-minor-modes 'flyspell-mode)
+(add-to-list 'mc/unsupported-minor-modes 'linum-mode)
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -211,8 +213,8 @@ by using nxml's indentation rules."
 ;; Use C-j for immediate termination with the current value, and RET
 ;; for continuing completion for that directory. This is the ido
 ;; behaviour.
-(define-key ivy-minibuffer-map (kbd "C-j") #'ivy-immediate-done)
-(define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+;; (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-immediate-done)
+;; (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
 
 
 ;; pycoverage
