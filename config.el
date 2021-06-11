@@ -198,12 +198,12 @@ by using nxml's indentation rules."
 (setq auth-sources '("~/.authinfo"))
 
 ;; ivy
-;; (ivy-mode 1)
+(ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
 
 
-(counsel-projectile-mode)
+;;(counsel-projectile-mode)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
@@ -229,7 +229,6 @@ by using nxml's indentation rules."
       (pycoverage-mode))))
 
 (load-file "/home/vincent/project/emacs-config/private.el")
-
 
 (provide 'config)
 ;;; config.el ends here
