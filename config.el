@@ -46,6 +46,9 @@
     counsel-projectile
     pycoverage
     counsel-spotify
+    sql-indent
+    csv-mode
+    python-docstring
 ))
 
 (mapc #'(lambda (package)
