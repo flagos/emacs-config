@@ -49,6 +49,8 @@
     sql-indent
     csv-mode
     python-docstring
+    restclient
+    quelpa
 ))
 
 (mapc #'(lambda (package)
@@ -56,12 +58,26 @@
       (package-install package)))
       myPackages)
 
+;; install quelpa packages
+(require 'quelpa)
+
+(quelpa '(change-case :fetcher git :url "git@gist.github.com:e8a10244aac6308de1323d1f6685658b.git"))
+
+
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 ;;(load-theme 'spacemacs-dark t) ;; load material theme
-(global-linum-mode t) ;; enable line numbers globally
+(global-linum-mode t) ;; enable line numbers globallye
+(setq linum-format "%d ")
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+
+;; window config
+(windmove-default-keybindings 'meta)
+(winner-mode 1)
+
+(setq calendar-week-start-day 1)
 
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -206,12 +222,12 @@ by using nxml's indentation rules."
 (setq ivy-count-format "(%d/%d) ")
 
 
-;;(counsel-projectile-mode)
+(counsel-projectile-mode)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-s") 'swiper-isearch)
-
+(global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
 
 ;; Use C-j for immediate termination with the current value, and RET
 ;; for continuing completion for that directory. This is the ido
@@ -232,6 +248,14 @@ by using nxml's indentation rules."
       (pycoverage-mode))))
 
 (load-file "/home/vincent/project/emacs-config/private.el")
+
+;;restclient
+(require 'restclient)
+
+;; docker
+(use-package docker
+  :ensure t
+    :bind ("C-c d" . docker))
 
 (provide 'config)
 ;;; config.el ends here
