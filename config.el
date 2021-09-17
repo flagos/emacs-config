@@ -26,6 +26,7 @@
     forge
     groovy-mode
     iedit
+    impostman
     js2-mode
     lsp-ivy
     lsp-mode
@@ -276,6 +277,9 @@ by using nxml's indentation rules."
 
 ;;restclient
 (require 'restclient)
+
+;; impostman
+(require 'impostman)
 
 ;; docker
 (use-package docker
