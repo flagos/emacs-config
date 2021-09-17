@@ -13,44 +13,45 @@
 
 (defvar myPackages
   '(better-defaults
-    lsp-mode
-    lsp-ui
-    elpy ;; for highlight-indentation-mode
-    material-theme
-    flycheck
-    py-autopep8
-    python-black
-    py-isort
-    lua-mode
-    markdown-mode
-    vlf
-    smex
-    magit
     cl-lib
+    counsel
+    counsel-projectile
+    counsel-spotify
+    csv-mode
+    docker
+    docker-compose-mode
+    dockerfile-mode
+    elpy ;; for highlight-indentation-mode
+    flycheck
+    forge
+    groovy-mode
+    iedit
     js2-mode
+    lsp-ivy
+    lsp-mode
+    lsp-pyright
+    lsp-ui
+    lua-mode
+    magit
+    markdown-mode
+    material-theme
+    multiple-cursors
+    projectile
+    py-autopep8
+    py-isort
+    pycoverage
+    python-black
+    python-docstring
+    python-pytest
+    quelpa
+    restclient
+    smex
+    sql-indent
+    use-package
+    vlf
     web-mode
     which-key
-    groovy-mode
-    multiple-cursors
-    iedit
-    projectile
-    docker
-    use-package
-    dockerfile-mode
-    docker-compose-mode
     yasnippet
-    forge
-    python-pytest
-    counsel
-    lsp-ivy
-    counsel-projectile
-    pycoverage
-    counsel-spotify
-    sql-indent
-    csv-mode
-    python-docstring
-    restclient
-    quelpa
 ))
 
 (mapc #'(lambda (package)
@@ -81,10 +82,13 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+(setq projectile-sort-order 'recently-active)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
 
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp)
@@ -96,15 +100,29 @@
 (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
 (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
 
-(use-package lsp-mode
-  :config
-  (lsp-register-custom-settings
-   '(("pyls.plugins.pyls_mypy.enabled" t t)
-     ("pyls.plugins.pyls_mypy.live_mode" nil t)
-     ("pyls.plugins.pyls_black.enabled" t t)
-     ("pyls.plugins.pyls_isort.enabled" t t)))
-  :hook
-    ((python-mode . lsp)))
+;; (use-package lsp-jedi
+;;   :ensure t
+;;   :config
+;;   (with-eval-after-load "lsp-mode"
+;;     (add-to-list 'lsp-disabled-clients 'pyls)
+;;     (add-to-list 'lsp-enabled-clients 'jedi)))
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp)))
+  :config (setq lsp-pyright-venv-directory "lsp"
+                lsp-file-watch-threshold 20000
+                lsp-pyright-auto-import-completions t)
+  )  ; or lsp-deferred
+
+
+
+;; lsp performances
+;; https://emacs-lsp.github.io/lsp-mode/page/performance/
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 
 (use-package python-black
   :demand t
@@ -149,6 +167,7 @@
 
 ;; javascript
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(setq js-indent-level 2)
 
 ;; pretty print xml
 (defun bf-pretty-print-xml-region (begin end)
@@ -216,6 +235,12 @@ by using nxml's indentation rules."
 
 (setq auth-sources '("~/.authinfo"))
 
+;; recentf
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
 ;; ivy
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
@@ -228,6 +253,8 @@ by using nxml's indentation rules."
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
+(setq projectile-completion-system 'ivy)
+
 
 ;; Use C-j for immediate termination with the current value, and RET
 ;; for continuing completion for that directory. This is the ido
@@ -247,8 +274,6 @@ by using nxml's indentation rules."
       (linum-mode)
       (pycoverage-mode))))
 
-(load-file "/home/vincent/project/emacs-config/private.el")
-
 ;;restclient
 (require 'restclient)
 
@@ -256,6 +281,12 @@ by using nxml's indentation rules."
 (use-package docker
   :ensure t
     :bind ("C-c d" . docker))
+
+;; slack
+;; (el-get-bundle slack)
+
+(load-file "/home/vincent/project/emacs-config/private.el")
+
 
 (provide 'config)
 ;;; config.el ends here
