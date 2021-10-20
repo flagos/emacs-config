@@ -26,7 +26,6 @@
     forge
     groovy-mode
     iedit
-    impostman
     js2-mode
     lsp-ivy
     lsp-mode
@@ -74,6 +73,16 @@
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+
+;; backup config
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+)
+
 
 ;; window config
 (windmove-default-keybindings 'meta)
@@ -254,6 +263,7 @@ by using nxml's indentation rules."
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
+(global-set-key (kbd "C-x b") 'counsel-switch-buffer)
 (setq projectile-completion-system 'ivy)
 
 
@@ -285,6 +295,10 @@ by using nxml's indentation rules."
 (use-package docker
   :ensure t
     :bind ("C-c d" . docker))
+
+;; vterm
+(use-package vterm
+  :ensure t)
 
 ;; slack
 ;; (el-get-bundle slack)
