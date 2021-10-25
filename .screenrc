@@ -1,0 +1,17 @@
+defscrollback 100000
+termcapinfo xterm* ti@:te@
+autodetach on
+startup_message off
+hardstatus alwayslastline
+shelltitle 'bash'
+
+hardstatus string '%{gk}[%{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= w}%?%+Lw%?%?%{g}]%=[%{d}%l%{g}][%{= w}%Y-%m-%d %0c:%s%{g}]%{W}'
+
+# use 256-color palette
+term screen-256color
+
+
+register Z i
+bind r eval "command -c zoom" "process Z"
+bind -c zoom i eval "layout save default" "layout save only" "only"    "register Z o"
+bind -c zoom o eval "layout select default" "register Z i"

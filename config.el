@@ -289,6 +289,7 @@ by using nxml's indentation rules."
 (require 'restclient)
 
 ;; impostman
+(load-file "/home/vincent/project/impostman/impostman.el")
 (require 'impostman)
 
 ;; docker
@@ -304,6 +305,14 @@ by using nxml's indentation rules."
 ;; (el-get-bundle slack)
 
 (load-file "/home/vincent/project/emacs-config/private.el")
+
+;; automate release note
+(defun generate-yaml-note ()
+      (interactive)
+      (let ((default-directory "/home/vincent/work/datapred/docs/release-notes")
+            (explicit-shell-file-name "bash"))
+        (message "Launching generate yaml")
+        (message (shell-command-to-string "python generate_yaml_note.py"))))
 
 
 (provide 'config)
