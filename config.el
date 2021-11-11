@@ -64,12 +64,12 @@
 
 (quelpa '(change-case :fetcher git :url "git@gist.github.com:e8a10244aac6308de1323d1f6685658b.git"))
 
-
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 ;;(load-theme 'spacemacs-dark t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globallye
 (setq linum-format "%d ")
+(add-hook 'term-mode-hook (lambda () (linum-mode -1)))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
