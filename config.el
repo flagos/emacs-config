@@ -159,7 +159,18 @@
 
 (scroll-bar-mode -1)
 
- (global-auto-revert-mode 1)
+;; Reverse colors for the border to have nicer line
+(set-face-inverse-video-p 'vertical-border nil)
+(set-face-background 'vertical-border (face-background 'default))
+(set-face-foreground 'vertical-border "gray")
+
+;; Set symbol for the border
+(set-display-table-slot standard-display-table
+                        'vertical-border
+                        (make-glyph-code ?│))
+
+
+(global-auto-revert-mode 1)
 
 (require 'vlf-setup)
 
