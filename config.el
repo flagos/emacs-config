@@ -183,8 +183,19 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (electric-pair-mode t)
+;; electric-pair only for whilelist modes
+(defvar my-electic-pair-modes '(python-mode emacs-lisp-mode json-mode yaml-mod))
+
+(defun my-inhibit-electric-pair-mode  (char)
+  (not (member major-mode my-electic-pair-modes)))
+(setq electric-pair-inhibit-predicate #'my-inhibit-electric-pair-mode)
+
 (ido-mode t)
 
+
+;; markdown
+(custom-set-variables
+  '(markdown-command "pandoc"))
 
 ;; javascript
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
