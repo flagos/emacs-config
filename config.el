@@ -311,8 +311,7 @@ by using nxml's indentation rules."
 (require 'restclient)
 
 ;; impostman
-(load-file "/home/vincent/project/impostman/impostman.el")
-(require 'impostman)
+;; (Require 'impostman)
 
 ;; docker
 (use-package docker
