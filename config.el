@@ -328,7 +328,7 @@ by using nxml's indentation rules."
 ;; slack
 ;; (el-get-bundle slack)
 
-(load-file "/home/vincent/project/emacs-config/private.el")
+;; (load-file "/home/vincent/project/emacs-config/private.el")
 
 ;; automate release note
 (defun generate-yaml-note ()
