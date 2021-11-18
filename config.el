@@ -312,6 +312,9 @@ by using nxml's indentation rules."
 (use-package vterm
   :ensure t)
 
+(define-key vterm-mode-map ["s-left"] nil)
+(define-key vterm-mode-map ["s-right"] nil)
+
 ;; slack
 ;; (el-get-bundle slack)
 
