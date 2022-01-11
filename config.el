@@ -338,6 +338,8 @@ by using nxml's indentation rules."
         (message "Launching generate yaml")
         (message (shell-command-to-string "python generate_yaml_note.py"))))
 
+(setq create-lockfiles nil)
+
 
 (provide 'config)
 ;;; config.el ends here
