@@ -14,6 +14,7 @@
 (defvar myPackages
   '(better-defaults
     cl-lib
+    code-review
     counsel
     counsel-projectile
     counsel-spotify
@@ -340,6 +341,9 @@ by using nxml's indentation rules."
 
 (setq create-lockfiles nil)
 
+(setq ghub-use-workaround-for-emacs-bug 'force)
+(setq code-review-gitlab-base-url "gitlab.com") ;;; default value
+(setq code-review-fill-column 80)
 
 (provide 'config)
 ;;; config.el ends here
