@@ -49,6 +49,7 @@
     restclient
     smex
     sql-indent
+    terraform-mode
     use-package
     vlf
     web-mode
