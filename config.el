@@ -24,6 +24,7 @@
     docker-compose-mode
     dockerfile-mode
     elpy ;; for highlight-indentation-mode
+    emacsql
     flycheck
     forge
     groovy-mode
