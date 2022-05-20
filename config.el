@@ -13,6 +13,7 @@
 
 (defvar myPackages
   '(better-defaults
+    bnf-mode
     cl-lib
     code-review
     counsel
@@ -344,6 +345,9 @@ by using nxml's indentation rules."
 (setq ghub-use-workaround-for-emacs-bug 'force)
 (setq code-review-gitlab-base-url "gitlab.com") ;;; default value
 (setq code-review-fill-column 80)
+
+;; lark
+ (load-file "~/project/emacs-config/lark-mode.el")
 
 (provide 'config)
 ;;; config.el ends here
