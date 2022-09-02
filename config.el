@@ -20,6 +20,7 @@
     counsel-projectile
     counsel-spotify
     csv-mode
+    djangonaut
     docker
     docker-compose-mode
     dockerfile-mode
