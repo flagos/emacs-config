@@ -138,10 +138,13 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+;; (add-hook 'before-save-hook 'py-isort-before-save)
 
 (use-package python-black
   :demand t
-  :after python)
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+
 
 (global-flycheck-mode)
 
