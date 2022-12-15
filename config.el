@@ -39,7 +39,9 @@
     magit
     markdown-mode
     material-theme
+    move-dup
     multiple-cursors
+    poetry
     projectile
     py-autopep8
     py-isort
@@ -74,7 +76,6 @@
 ;;(load-theme 'spacemacs-dark t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globallye
 (setq linum-format "%d ")
-(add-hook 'term-mode-hook (lambda () (linum-mode -1)))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -138,12 +139,21 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-;; (add-hook 'before-save-hook 'py-isort-before-save)
+;; poetry
+(use-package poetry
+ :ensure t)
+
+(add-hook 'before-save-hook 'py-isort-before-save)
 
 (use-package python-black
   :demand t
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
+
+
+;; (global-djangonaut-mode)
+;; (setq python-shell-extra-pythonpaths '("/home/vincent/work/datapred/web/api/"))
+;; (setq python-shell-process-environment '("DJANGO_SETTINGS_MODULE=tests.settings_unit_tests"))
 
 
 (global-flycheck-mode)
@@ -354,6 +364,14 @@ by using nxml's indentation rules."
 
 ;; lark
  (load-file "~/project/emacs-config/lark-mode.el")
+
+
+(use-package move-dup
+  :bind (("S-M-<up>"   . move-dup-move-lines-up)
+         ("C-M-<up>" . move-dup-duplicate-up)
+         ("S-M-<down>"   . move-dup-move-lines-down)
+         ("C-M-<down>" . move-dup-duplicate-down)))
+
 
 (provide 'config)
 ;;; config.el ends here
