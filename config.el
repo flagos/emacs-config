@@ -21,6 +21,7 @@
     counsel-spotify
     csv-mode
     djangonaut
+    dap-mode
     docker
     docker-compose-mode
     dockerfile-mode
@@ -30,6 +31,7 @@
     forge
     groovy-mode
     iedit
+    json-mode
     js2-mode
     lsp-ivy
     lsp-mode
@@ -132,6 +134,11 @@
                 lsp-pyright-auto-import-completions t)
   )  ; or lsp-deferred
 
+(use-package dap-mode
+  :config
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
+  )
 
 
 ;; lsp performances
@@ -143,12 +150,12 @@
 (use-package poetry
  :ensure t)
 
-(add-hook 'before-save-hook 'py-isort-before-save)
+;; (add-hook 'before-save-hook 'py-isort-before-save)
 
 (use-package python-black
   :demand t
   :after python
-  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+  :hook (python-mode . python-black-on-save-mode))
 
 
 ;; (global-djangonaut-mode)
