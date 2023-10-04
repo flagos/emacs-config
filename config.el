@@ -23,8 +23,8 @@
     counsel-projectile
     counsel-spotify
     csv-mode
-    djangonaut
     dap-mode
+    djangonaut
     docker
     docker-compose-mode
     dockerfile-mode
@@ -37,8 +37,8 @@
     groovy-mode
     hackernews
     iedit
-    json-mode
     js2-mode
+    json-mode
     load-env-vars
     lsp-ivy
     lsp-mode
