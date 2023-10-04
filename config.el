@@ -32,11 +32,14 @@
     emacsql
     flycheck
     forge
+    git-link
     gitlab-pipeline
     groovy-mode
+    hackernews
     iedit
     json-mode
     js2-mode
+    load-env-vars
     lsp-ivy
     lsp-mode
     lsp-pyright
@@ -68,7 +71,6 @@
     vlf
     web-mode
     which-key
-    yasnippet
 ))
 
 (mapc #'(lambda (package)
@@ -84,8 +86,9 @@
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 ;;(load-theme 'spacemacs-dark t) ;; load material theme
-(global-linum-mode t) ;; enable line numbers globallye
-(setq linum-format "%d ")
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; (global-display-line-numbers-mode) ;; enable line numbers globallye
+
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -166,9 +169,44 @@
   :hook (python-mode . python-black-on-save-mode))
 
 
+;; .env files bricolage.
+(defvar @-dotenv-file-name ".env"
+  "The name of the .env file."
+  )
+
+(defun @-find-env-file ()
+  "Find the closest .env file in the directory hierarchy."
+
+  (let* ((env-file-directory (locate-dominating-file "." @-dotenv-file-name))
+        (file-name (concat env-file-directory @-dotenv-file-name)))
+    (when (file-exists-p file-name)
+        file-name))
+  )
+
+(defun @-set-project-env ()
+  "Export all environment variables in the closest .env file."
+
+  (let ((env-file (@-find-env-file)))
+    (when env-file
+      (load-env-vars env-file)))
+  )
+
+
+(defun @-set-env-vars-hooks ()
+  "Load env file in a project."
+
+  (use-package load-env-vars)
+  (add-hook 'projectile-mode-hook #'@-set-project-env)
+  (add-hook 'projectile-after-switch-project-hook #'@-set-project-env)
+  (add-hook 'comint-exec-hook #'@-set-project-env)
+  (add-hook 'lsp-mode-hook #'@-set-project-env)
+  (add-hook 'vterm-mode-hook #'@-set-project-env)
+  )
+(@-set-env-vars-hooks)
+
 ;; (global-djangonaut-mode)
 (setq python-shell-extra-pythonpaths '("/home/vincent/work/oper-product/"))
-;; (setq python-shell-process-environment '("DJANGO_SETTINGS_MODULE=tests.settings_unit_tests"))
+(setq python-shell-process-environment '("DJANGO_SETTINGS_MODULE=oper.settings"))
 
 
 (global-flycheck-mode)
@@ -260,7 +298,6 @@ by using nxml's indentation rules."
 (global-set-key (kbd "M-N") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
 (add-to-list 'mc/unsupported-minor-modes 'flyspell-mode)
-(add-to-list 'mc/unsupported-minor-modes 'linum-mode)
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -268,12 +305,12 @@ by using nxml's indentation rules."
 
 
 ;; screen stuff
-(define-key input-decode-map "\e[1;2D" [S-left])
-(define-key input-decode-map "\e[1;2C" [S-right])
-(define-key input-decode-map "\e[1;2B" [S-down])
-(define-key input-decode-map "\e[1;2A" [S-up])
-(define-key input-decode-map "\e[1;2F" [S-end])
-(define-key input-decode-map "\e[1;2H" [S-home])
+;; (define-key input-decode-map "\e[1;2D" [S-left])
+;; (define-key input-decode-map "\e[1;2C" [S-right])
+;; (define-key input-decode-map "\e[1;2B" [S-down])
+;; (define-key input-decode-map "\e[1;2A" [S-up])
+;; (define-key input-decode-map "\e[1;2F" [S-end])
+;; (define-key input-decode-map "\e[1;2H" [S-home])
 
 
 (custom-set-faces
@@ -287,11 +324,6 @@ by using nxml's indentation rules."
 
 ;; magit-popup
 (setq transient-enable-popup-navigation t)
-
-
-;; yasnippet
-(yas-reload-all)
-(add-hook 'python-mode-hook #'yas-minor-mode)
 
 
 ;; forge
@@ -330,14 +362,12 @@ by using nxml's indentation rules."
 
 
 ;; pycoverage
-(require 'linum)
 (require 'pycoverage)
 
 (defun my-coverage ()
   (interactive)
   (when (derived-mode-p 'python-mode)
     (progn
-      (linum-mode)
       (pycoverage-mode))))
 
 ;;restclient
@@ -350,13 +380,6 @@ by using nxml's indentation rules."
 (use-package docker
   :ensure t
     :bind ("C-c d" . docker))
-
-;; vterm
-(use-package vterm
-  :ensure t)
-
-(define-key vterm-mode-map ["s-left"] nil)
-(define-key vterm-mode-map ["s-right"] nil)
 
 ;; slack
 ;; (el-get-bundle slack)
@@ -441,6 +464,7 @@ by using nxml's indentation rules."
 (setq epa-pinentry-mode 'loopback)
 (setq epg-pinentry-mode 'loopback)
 (pinentry-start)
+
 
 (provide 'config)
 ;;; config.el ends here
