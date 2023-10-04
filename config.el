@@ -24,6 +24,7 @@
     counsel-spotify
     csv-mode
     dap-mode
+    dash
     djangonaut
     docker
     docker-compose-mode
@@ -36,6 +37,7 @@
     gitlab-pipeline
     groovy-mode
     hackernews
+    ht
     iedit
     js2-mode
     json-mode
@@ -43,6 +45,7 @@
     lsp-ivy
     lsp-mode
     lsp-pyright
+    lsp-sonarlint
     lsp-ui
     lua-mode
     magit
@@ -119,6 +122,12 @@
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
 
+;; sonarlint
+(require 'lsp-sonarlint)
+(require 'lsp-sonarlint-python)
+(setq lsp-sonarlint-python-enabled t)
+
+;; lsp
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
