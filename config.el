@@ -4,6 +4,9 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
+;; (setq package-archive-priorities '(("melpa"    . 5)
+;;                                    ("jcs-elpa" . 0))
 
 (setq package-check-signature nil)
 
@@ -29,6 +32,7 @@
     emacsql
     flycheck
     forge
+    gitlab-pipeline
     groovy-mode
     iedit
     json-mode
@@ -45,6 +49,7 @@
     multiple-cursors
     org-journal
     org-roam
+    pinentry
     poetry
     projectile
     py-autopep8
@@ -57,6 +62,7 @@
     restclient
     smex
     sql-indent
+    sqlite3
     terraform-mode
     use-package
     vlf
@@ -152,7 +158,7 @@
 (use-package poetry
  :ensure t)
 
-;; (add-hook 'before-save-hook 'py-isort-before-save)
+(add-hook 'before-save-hook 'py-isort-before-save)
 
 (use-package python-black
   :demand t
@@ -292,7 +298,7 @@ by using nxml's indentation rules."
 (with-eval-after-load 'magit
   (require 'forge))
 
-(setq auth-sources '("~/.authinfo"))
+(setq auth-sources '("~/.authinfo.gpg"))
 
 ;; recentf
 (recentf-mode 1)
@@ -417,6 +423,24 @@ by using nxml's indentation rules."
   (setq org-journal-dir "~/org/journal/"
         org-journal-file-type monthly
         org-journal-date-format "%A, %d %B %Y"))
+
+
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph (&optional region)
+  "Take a multi-line paragraph and make it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+      ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
+;; Handy key definition
+(define-key global-map "\M-Q" 'unfill-paragraph)
+
+;; pinentry
+(setq epa-pinentry-mode 'loopback)
+(setq epg-pinentry-mode 'loopback)
+(pinentry-start)
 
 (provide 'config)
 ;;; config.el ends here
