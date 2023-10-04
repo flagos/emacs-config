@@ -43,6 +43,8 @@
     material-theme
     move-dup
     multiple-cursors
+    org-journal
+    org-roam
     poetry
     projectile
     py-autopep8
@@ -159,7 +161,7 @@
 
 
 ;; (global-djangonaut-mode)
-;; (setq python-shell-extra-pythonpaths '("/home/vincent/work/datapred/web/api/"))
+(setq python-shell-extra-pythonpaths '("/home/vincent/work/oper-product/"))
 ;; (setq python-shell-process-environment '("DJANGO_SETTINGS_MODULE=tests.settings_unit_tests"))
 
 
@@ -379,6 +381,42 @@ by using nxml's indentation rules."
          ("S-M-<down>"   . move-dup-move-lines-down)
          ("C-M-<down>" . move-dup-duplicate-down)))
 
+;; org-roam
+;; Org-Roam basic configuration
+(setq org-directory (concat (getenv "HOME") "/Documents/notes/"))
+
+(use-package org-roam
+  :after org
+  :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+  :custom
+  (org-roam-directory (file-truename org-directory))
+  :config
+  (org-roam-setup)
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n r" . org-roam-node-random)
+         (:map org-mode-map
+               (("C-c n i" . org-roam-node-insert)
+                ("C-c n o" . org-id-get-create)
+                ("C-c n t" . org-roam-tag-add)
+                ("C-c n a" . org-roam-alias-add)
+                ("C-c n l" . org-roam-buffer-toggle)))))
+
+;; org-agenda
+(setq org-log-done t)
+(setq org-agenda-files (list "~/org/work.org"
+                             "~/org/home.org"))
+
+;; org-journal
+(use-package org-journal
+  :ensure t
+  :defer t
+  :init
+  ;; Change default prefix key; needs to be set before loading org-journal
+  (setq org-journal-prefix-key "C-c j ")
+  :config
+  (setq org-journal-dir "~/org/journal/"
+        org-journal-file-type monthly
+        org-journal-date-format "%A, %d %B %Y"))
 
 (provide 'config)
 ;;; config.el ends here
