@@ -128,6 +128,8 @@
 (setq lsp-sonarlint-python-enabled t)
 
 ;; lsp
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.env\\'"))
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
