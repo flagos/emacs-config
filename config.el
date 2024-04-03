@@ -455,7 +455,7 @@ by using nxml's indentation rules."
   (setq org-journal-prefix-key "C-c j ")
   :config
   (setq org-journal-dir "~/org/journal/"
-        org-journal-file-type monthly
+        org-journal-file-type  (quote monthly)
         org-journal-date-format "%A, %d %B %Y"))
 
 
