@@ -26,6 +26,7 @@
     dap-mode
     dash
     djangonaut
+    difftastic
     docker
     docker-compose-mode
     dockerfile-mode
@@ -485,6 +486,21 @@ by using nxml's indentation rules."
 (setq epa-pinentry-mode 'loopback)
 (setq epg-pinentry-mode 'loopback)
 (pinentry-start)
+
+;; diffstatic
+(require 'difftastic)
+
+;; Add commands to a `magit-difftastic'
+(eval-after-load 'magit-diff
+  '(transient-append-suffix 'magit-diff '(-1 -1)
+     [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
+      ("S" "Difftastic show" difftastic-magit-show)]))
+(add-hook 'magit-blame-read-only-mode-hook
+          (lambda ()
+            (keymap-set magit-blame-read-only-mode-map
+                        "D" #'difftastic-magit-show)
+            (keymap-set magit-blame-read-only-mode-map
+                        "S" #'difftastic-magit-show)))
 
 
 (provide 'config)
