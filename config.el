@@ -30,10 +30,12 @@
     docker
     docker-compose-mode
     dockerfile-mode
+    elisp-format
     elpy ;; for highlight-indentation-mode
     emacsql
     flycheck
     forge
+    git-auto-commit-mode
     git-link
     gitlab-pipeline
     groovy-mode
@@ -106,6 +108,9 @@
       kept-old-versions 5    ; and how many of the old
 )
 
+
+;; elisp
+(require 'elisp-format)
 
 ;; window config
 (windmove-default-keybindings 'meta)
@@ -502,6 +507,10 @@ by using nxml's indentation rules."
             (keymap-set magit-blame-read-only-mode-map
                         "S" #'difftastic-magit-show)))
 
+
+;; safe variables
+(add-to-list 'safe-local-variable-values '(gac-automatically-push-p . t))
+(add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t))
 
 (provide 'config)
 ;;; config.el ends here
