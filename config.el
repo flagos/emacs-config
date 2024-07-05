@@ -497,7 +497,7 @@ by using nxml's indentation rules."
 
 ;; pinentry
 (setq epa-pinentry-mode 'loopback)
-(setq epg-pinentry-mode 'loopback)
+(setq epa-file-encrypt-to "vincent.lagorsse@opercredits.com")
 (pinentry-start)
 
 ;; diffstatic
