@@ -75,6 +75,7 @@
     terraform-mode
     use-package
     vlf
+    vterm
     web-mode
     which-key
 ))
@@ -176,6 +177,10 @@
   (setq dap-python-debugger 'debugpy)
   )
 
+
+;; vterm
+(use-package vterm
+    :ensure t)
 
 ;; lsp performances
 ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
