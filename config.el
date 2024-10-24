@@ -32,6 +32,7 @@
     dockerfile-mode
     elisp-format
     elpy ;; for highlight-indentation-mode
+    elysium
     emacsql
     flycheck
     forge
@@ -524,6 +525,15 @@ by using nxml's indentation rules."
 ;; safe variables
 (add-to-list 'safe-local-variable-values '(gac-automatically-push-p . t))
 (add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t))
+
+(use-package gptel
+  :ensure t
+  :bind ("C-x l" . gptel-menu))
+
+;; elysium
+(use-package elysium)
+
+(require 'private_config)
 
 (provide 'config)
 ;;; config.el ends here
