@@ -163,7 +163,8 @@
                          (lsp)))
   :config (setq lsp-pyright-venv-directory "lsp"
                 lsp-file-watch-threshold 20000
-                lsp-pyright-auto-import-completions t)
+                lsp-pyright-auto-import-completions t
+		        lsp-pyright-langserver-command "basedpyright")
   )  ; or lsp-deferred
 
 (use-package dap-mode
