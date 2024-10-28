@@ -156,12 +156,6 @@
 (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
 (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
 
-;; (use-package lsp-jedi
-;;   :ensure t
-;;   :config
-;;   (with-eval-after-load "lsp-mode"
-;;     (add-to-list 'lsp-disabled-clients 'pyls)
-;;     (add-to-list 'lsp-enabled-clients 'jedi)))
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
