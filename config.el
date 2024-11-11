@@ -25,8 +25,8 @@
     csv-mode
     dap-mode
     dash
-    djangonaut
     difftastic
+    djangonaut
     docker
     docker-compose-mode
     dockerfile-mode
