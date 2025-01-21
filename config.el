@@ -49,7 +49,7 @@
     lsp-ivy
     lsp-mode
     lsp-pyright
-    lsp-sonarlint
+    ;; lsp-sonarlint
     lsp-ui
     lua-mode
     magit
@@ -131,16 +131,16 @@
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
 
 ;; sonarlint
-(use-package lsp-sonarlint
-  :custom
-  ;; Allow sonarlint to download and unzip the official VSCode extension
-  ;; If nil, you'll have to do that yourself. See also `lsp-sonarlint-download'
-  ;; `lsp-sonarlint-download-url' and `lsp-sonarlint-download-dir'
-  (lsp-sonarlint-auto-download t)
+;; (use-package lsp-sonarlint
+;;   :custom
+;;   ;; Allow sonarlint to download and unzip the official VSCode extension
+;;   ;; If nil, you'll have to do that yourself. See also `lsp-sonarlint-download'
+;;   ;; `lsp-sonarlint-download-url' and `lsp-sonarlint-download-dir'
+;;   (lsp-sonarlint-auto-download t)
 
-  ;; Choose which analyzers you want enabled. By default all are enabled
-  ;; See command `lsp-sonarlint-available-analyzers' for the full list.
-  (lsp-sonarlint-enabled-analyzers '("python" "text")))
+;;   ;; Choose which analyzers you want enabled. By default all are enabled
+;;   ;; See command `lsp-sonarlint-available-analyzers' for the full list.
+;;   (lsp-sonarlint-enabled-analyzers '("python" "text")))
 
 
 ;; lsp
