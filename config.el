@@ -30,6 +30,7 @@
     docker
     docker-compose-mode
     dockerfile-mode
+    editorconfig
     elisp-format
     elpy ;; for highlight-indentation-mode
     elysium
@@ -45,6 +46,7 @@
     iedit
     js2-mode
     json-mode
+    json-rpc
     load-env-vars
     lsp-ivy
     lsp-mode
