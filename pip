@@ -1,5 +1,5 @@
 pip install --upgrade setuptools
 
-pip install 'python-lsp-server[all]' autopep8 flake8 pyls-black pyls-isort pyls-mypy black-macchiato isort pytest-cov ipython basedpyright ruff
+pip install 'python-lsp-server[all]' autopep8 flake8 pyls-black pyls-isort pyls-mypy black-macchiato isort pytest-cov ipython basedpyright pyflakes
 
 pip install ~/project/pycoverage.el/cov2emacs/
