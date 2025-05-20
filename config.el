@@ -36,7 +36,7 @@
     elysium
     emacsql
     flycheck
-    forge
+    ;; forge
     git-auto-commit-mode
     git-link
     gitlab-pipeline
@@ -355,8 +355,8 @@ by using nxml's indentation rules."
 
 
 ;; forge
-(with-eval-after-load 'magit
-  (require 'forge))
+;; (with-eval-after-load 'magit
+;;  (require 'forge))
 
 (setq auth-sources '("~/.authinfo.gpg"))
 
