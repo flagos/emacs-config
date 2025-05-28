@@ -6,7 +6,10 @@ My personnal config for emacs
 * Add (load-file "<path_to_repo>/config.el")
 * ln -s <path_to_repo>/pycodestyle ~/.config/pycodestyle
 * ln -s $PWD/.tmux.conf ~/.
-* ln -s $PWD/alacritty.yml ~/.config/alacritty/alacritty.yml
+
+mkdir -p ~/.config/alacritty/themes
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+* ln -s $PWD/alacritty.toml ~/.config/alacritty/alacritty.toml
 
 * install system packages:
 sudo apt-get install -y libjansson4 libjansson-dev
