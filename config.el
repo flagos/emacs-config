@@ -63,6 +63,7 @@
     org-roam
     pinentry
     poetry
+    prettier-js
     projectile
     py-autopep8
     py-isort
@@ -174,6 +175,11 @@
   (require 'dap-python)
   (setq dap-python-debugger 'debugpy)
   )
+
+
+;; prettier
+(require 'prettier-js)
+(add-hook 'js2-mode-hook 'prettier-js-mode)
 
 
 ;; vterm
