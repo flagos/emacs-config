@@ -1,4 +1,4 @@
-;;; package --- Summary
+;; package --- Summary
 ;;; Commentary:
 ;;; Code:
 
@@ -217,6 +217,19 @@
 ;; poetry
 (use-package poetry
  :ensure t)
+
+(defun my-python-fix-imports-on-save ()
+  "Run `python-fix-imports` on save, except for __init__.py and settings.py files."
+  (let ((filename (file-name-nondirectory buffer-file-name)))
+    (unless (or (string-equal filename "__init__.py")
+                (string-equal filename "settings.py"))
+      (python-fix-imports))))
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'my-python-fix-imports-on-save nil 'local))
+          )
+
 
 (add-hook 'before-save-hook 'py-isort-before-save)
 
