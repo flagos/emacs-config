@@ -165,6 +165,7 @@
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.env\\'"))
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp)
+(add-hook 'js-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
 
 (require 'lsp-ui)
