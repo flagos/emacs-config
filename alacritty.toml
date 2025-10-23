@@ -1,4 +1,26 @@
 [general]
 import = [
-    "~/.config/alacritty/themes/themes/solarized_dark.toml"
+    "~/.config/alacritty/themes/themes/afterglow.toml"
 ]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size=10.5
+
+[font.bold]
+family = "Ubuntu Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "Ubuntu Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "Ubuntu Mono"
+style = "Italic"
+
+[font.normal]
+family = "Ubuntu Mono"
+style = "Regular"
