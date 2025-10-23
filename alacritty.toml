@@ -24,3 +24,9 @@ style = "Italic"
 [font.normal]
 family = "Ubuntu Mono"
 style = "Regular"
+
+
+
+[[keyboard.bindings]]
+key = "F11"
+action = "ToggleFullscreen"
