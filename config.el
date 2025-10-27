@@ -29,7 +29,9 @@
   (package-refresh-contents))
 
 (defvar myPackages
-  '(better-defaults
+  '(aider
+    better-defaults
+    blacken
     bnf-mode
     cl-lib
     code-review
@@ -40,6 +42,7 @@
     dap-mode
     dash
     difftastic
+    direnv
     djangonaut
     docker
     docker-compose-mode
@@ -54,6 +57,7 @@
     git-auto-commit-mode
     git-link
     gitlab-pipeline
+    glab
     groovy-mode
     hackernews
     ht
@@ -77,12 +81,13 @@
     org-roam
     pinentry
     poetry
+    popup
     prettier-js
     projectile
     py-autopep8
     py-isort
     pycoverage
-    python-black
+    pyimport
     python-docstring
     python-pytest
     quelpa
@@ -91,6 +96,7 @@
     sql-indent
     sqlite3
     terraform-mode
+    tree-sitter-langs
     use-package
     vlf
     vterm
@@ -144,8 +150,16 @@
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
+;; (setq python-shell-interpreter "ipython"
+;;       python-shell-interpreter-args "-i -- --InteractiveShell.display_page=True")
+
+(add-hook 'pyvenv-post-activate-hooks
+          (lambda ()
+            (setq python-shell-interpreter (concat pyvenv-virtual-env "/bin/python"))))
+
+(use-package direnv
+ :config
+ (direnv-mode))
 
 ;; sonarlint
 ;; (use-package lsp-sonarlint
@@ -193,6 +207,14 @@
   :init
   (global-lsp-bridge-mode))
 
+
+(with-eval-after-load 'lsp-bridge
+  (add-hook 'lsp-bridge-mode-hook
+            (lambda ()
+              (direnv-update-environment))))
+
+
+
 (use-package dap-mode
   :config
   (require 'dap-python)
@@ -218,10 +240,10 @@
 
 (add-hook 'before-save-hook 'py-isort-before-save)
 
-(use-package python-black
-  :demand t
-  :after python
-  :hook (python-mode . python-black-on-save-mode))
+;; Enable blacken-mode for Python buffers
+(require 'blacken)
+(add-hook 'python-mode-hook 'blacken-mode)
+
 
 
 ;; .env files bricolage.
@@ -550,12 +572,70 @@ by using nxml's indentation rules."
 (add-to-list 'safe-local-variable-values '(gac-automatically-push-p . t))
 (add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t))
 
+;; LLM
 (use-package gptel
   :ensure t
   :bind ("C-x l" . gptel-menu))
 
 ;; elysium
 (use-package elysium)
+
+;; aider
+(use-package aider
+  :config
+  ;; For latest claude sonnet model
+  (setq aider-args '("--model" "sonnet" "--no-auto-accept-architect")) ;; add --no-auto-commits if you don't want it
+  ;; Or chatgpt model
+  ;; (setq aider-args '("--model" "o4-mini"))
+  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
+  ;; Or use your personal config file
+  (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+  (setq aider-enable-markdown-highlighting nil)
+  ;; ;;
+  ;; Optional: Set a key binding for the transient menu
+  (global-set-key (kbd "C-c a") 'aider-transient-menu) ;; for wider screen
+  ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
+  (aider-magit-setup-transients) ;; add aider magit function to magit menu
+  ;; auto revert buffer
+  (global-auto-revert-mode 1)
+  (auto-revert-mode 1))
+
+
+;; claude-code-ide
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+  :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
+  :config
+  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+
+
+;; gemini cli
+
+(use-package gemini-cli
+	       :straight (:type git :host github :repo "linchen2chris/gemini-cli.el" :branch "main"
+				            :files ("*.el" (:exclude "demo.gif")))
+	       :bind-keymap
+		   ("C-c g" . gemini-cli-command-map)
+		   :config
+		   (gemini-cli-mode)
+           )
+(setq gemini-cli-terminal-backend 'vterm)
+
+
+;; grep
+
+;; Add patterns to ignore for grep
+(with-eval-after-load 'grep
+  ;; Ignore specific file patterns
+  ;; (add-to-list 'grep-find-ignored-files "*.min.js")
+
+  ;; Ignore specific directories
+  (add-to-list 'grep-find-ignored-directories "lsp")
+  (add-to-list 'grep-find-ignored-directories ".direnv")
+  (add-to-list 'grep-find-ignored-directories ".git")
+  (add-to-list 'grep-find-ignored-directories "dist")
+  (add-to-list 'grep-find-ignored-directories "__pycache__"))
+
 
 (require 'private_config)
 
