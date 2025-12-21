@@ -225,6 +225,12 @@
 ;; prettier
 (require 'prettier-js)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'tsx-ts-mode-hook 'prettier-js-mode)
+
+
+;; tree-sitter
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(global-tree-sitter-mode)
 
 
 ;; vterm
