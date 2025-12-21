@@ -602,24 +602,48 @@ by using nxml's indentation rules."
 
 
 ;; claude-code-ide
-(use-package claude-code-ide
-  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-  :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
-  :config
-  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+;; (use-package claude-code-ide
+;;   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+;;   :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
+;;   :config
+;;   (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
 
 
 ;; gemini cli
 
-(use-package gemini-cli
-	       :straight (:type git :host github :repo "linchen2chris/gemini-cli.el" :branch "main"
-				            :files ("*.el" (:exclude "demo.gif")))
-	       :bind-keymap
-		   ("C-c g" . gemini-cli-command-map)
-		   :config
-		   (gemini-cli-mode)
-           )
-(setq gemini-cli-terminal-backend 'vterm)
+;; (use-package gemini-cli
+;; 	       :straight (:type git :host github :repo "linchen2chris/gemini-cli.el" :branch "main"
+;; 				            :files ("*.el" (:exclude "demo.gif")))
+;; 	       :bind-keymap
+;; 		   ("C-c g" . gemini-cli-command-map)
+;; 		   :config
+;; 		   (gemini-cli-mode)
+;;            )
+;; (setq gemini-cli-terminal-backend 'vterm)
+
+
+;; codex-cli
+(use-package codex-cli
+  ;; For MELPA: :ensure t
+  ;; For GitHub (Emacs 29+):
+  ;; :vc (:fetcher github :repo "bennfocus/codex-cli.el")
+  :ensure t
+  :bind (("C-c c t" . codex-cli-toggle)
+         ("C-c c s" . codex-cli-start)
+         ("C-c c q" . codex-cli-stop)
+         ("C-c c Q" . codex-cli-stop-all)
+         ("C-c c p" . codex-cli-send-prompt)
+         ("C-c c r" . codex-cli-send-region)
+         ("C-c c f" . codex-cli-send-file)
+         ;; Show-all layout + paging
+         ("C-c c a" . codex-cli-toggle-all)
+         ("C-c c n" . codex-cli-toggle-all-next-page)
+         ("C-c c b" . codex-cli-toggle-all-prev-page))
+  :init
+  (setq codex-cli-executable "codex"
+        codex-cli-terminal-backend 'vterm
+        codex-cli-side 'right
+        codex-cli-width 90))
 
 
 ;; grep
