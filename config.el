@@ -667,7 +667,7 @@ by using nxml's indentation rules."
   (add-to-list 'grep-find-ignored-directories "__pycache__"))
 
 
-(require 'private_config)
+;; (require 'private_config)
 
 (provide 'config)
 ;;; config.el ends here
