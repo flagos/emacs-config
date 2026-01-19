@@ -235,7 +235,9 @@
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (setq treesit-language-source-alist
       '((go "https://github.com/tree-sitter/tree-sitter-go" "v0.21.0")
-        (gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.0.2")))
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.0.2")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 (setq treesit-extra-load-path (list (expand-file-name "~/.emacs.d/tree-sitter")))
 (global-tree-sitter-mode)
 
