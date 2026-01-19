@@ -29,7 +29,7 @@
   (package-refresh-contents))
 
 (defvar myPackages
-  '(aider
+  '(aidermacs
     better-defaults
     blacken
     bnf-mode
@@ -654,6 +654,7 @@ by using nxml's indentation rules."
 ;; aider
 (use-package aidermacs
   :bind (("C-c a" . aidermacs-transient-menu))
+  :custom (aidermacs-config-file "~/.cecli.conf.yml")
 )
 ;; grep
 
