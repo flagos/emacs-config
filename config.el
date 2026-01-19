@@ -58,6 +58,7 @@
     git-link
     gitlab-pipeline
     glab
+    go-mode
     groovy-mode
     hackernews
     ht
@@ -180,6 +181,7 @@
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'js-mode-hook #'lsp)
+(add-hook 'go-ts-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
 
 (require 'lsp-ui)
@@ -224,12 +226,17 @@
 
 ;; prettier
 (require 'prettier-js)
+(add-hook 'js-mode-hook 'prettier-js-mode)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'tsx-ts-mode-hook 'prettier-js-mode)
 
 
 ;; tree-sitter
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(setq treesit-language-source-alist
+      '((go "https://github.com/tree-sitter/tree-sitter-go" "v0.21.0")
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.0.2")))
+(setq treesit-extra-load-path (list (expand-file-name "~/.emacs.d/tree-sitter")))
 (global-tree-sitter-mode)
 
 
@@ -354,6 +361,11 @@
 ;; javascript
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (setq js-indent-level 2)
+
+;; go
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+(setq lsp-go-gopls-server-path "gopls")
+
 
 ;; pretty print xml
 (defun bf-pretty-print-xml-region (begin end)
