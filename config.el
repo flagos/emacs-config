@@ -2,31 +2,30 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
-;; (setq package-archive-priorities '(("melpa"    . 5)
-;;                                    ("jcs-elpa" . 0))
+(setq package-enable-at-startup nil)
+(setq package--initialized t)
+;; Silence the warning and the "temporarily setting" message
+(setq warning-suppress-log-types '((straight)))
+(setq warning-suppress-types '((straight)))
 
-;; straight
+;; 2. Bootstrap straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
-      (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-        'silent 'inhibit-cookies)
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq package-check-signature nil)
+;; 3. Configure use-package to always use Straight
+(setq straight-use-package-by-default t)
+(straight-use-package 'use-package)
 
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
 
 (defvar myPackages
   '(aidermacs
@@ -105,10 +104,9 @@
     which-key
 ))
 
-(mapc #'(lambda (package)
-    (unless (package-installed-p package)
-      (package-install package)))
-      myPackages)
+
+;; This replaces your old (package-install) loop
+(mapc #'straight-use-package myPackages)
 
 ;; install quelpa packages
 ;; (require 'quelpa)
