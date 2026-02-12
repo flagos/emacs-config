@@ -226,6 +226,8 @@
 (require 'prettier-js)
 (add-hook 'js-mode-hook 'prettier-js-mode)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'typescript-mode-hook 'prettier-js-mode)
+(add-hook 'typescript-ts-mode-hook 'prettier-js-mode)
 (add-hook 'tsx-ts-mode-hook 'prettier-js-mode)
 
 
