@@ -173,14 +173,50 @@
 ;;   (lsp-sonarlint-enabled-analyzers '("python" "text")))
 
 
+;; ruby
+(use-package rbenv
+  :ensure t
+  :config
+  (global-rbenv-mode)
+  ;; This ensures rbenv is ready before lsp-mode tries to find the server
+  (add-hook 'ruby-mode-hook 'rbenv-use-corresponding))
+
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns x))
+  :config
+  (exec-path-from-shell-copy-envs '("PATH" "RBENV_ROOT")))
+
+
+
 ;; lsp
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.env\\'"))
+;; lsp-mode configuration
 (require 'lsp-mode)
+(setq lsp-keymap-prefix "C-c l")
+
+
+(setq lsp-solargraph-use-bundler nil) ; Stops Bundler from killing the process
+(setq lsp-ruby-lsp-use-bundler nil) 
+
+(setq lsp-ruby-lsp-enabled-features
+      ["codeActions" "diagnostics" "documentHighlights"
+       "documentSymbols" "foldingRanges" "formatting"
+       "hover" "inlayHints" "references" "rename"
+       "selectionRanges" "semanticHighlighting"
+       "signatureHelp" "typeHierarchy" "workspaceSymbol"])
+(setq lsp-enabled-clients nil)
+(setq lsp-disabled-clients '(rubocop-ls))
+
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.env\\'")
+
+(add-hook 'ruby-mode-hook #'lsp)
+(add-hook 'ruby-ts-mode-hook #'lsp)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'js-mode-hook #'lsp)
 (add-hook 'go-ts-mode-hook #'lsp)
-(add-hook 'lsp-mode-hook (lambda () (highlight-indentation-mode 1)))
+
+
 
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
@@ -205,8 +241,8 @@
             :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
             :build (:not compile))
   :init
-  (global-lsp-bridge-mode))
-
+;;  (global-lsp-bridge-mode)
+)
 
 (with-eval-after-load 'lsp-bridge
   (add-hook 'lsp-bridge-mode-hook
@@ -670,6 +706,7 @@ by using nxml's indentation rules."
   :bind (("C-c a" . aidermacs-transient-menu))
   :custom (aidermacs-config-file "~/.cecli.conf.yml")
 )
+
 ;; grep
 
 ;; Add patterns to ignore for grep
