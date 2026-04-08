@@ -209,6 +209,7 @@
 
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.env\\'")
+)
 
 (add-hook 'ruby-mode-hook #'lsp)
 (add-hook 'ruby-ts-mode-hook #'lsp)
