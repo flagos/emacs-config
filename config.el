@@ -1,7 +1,6 @@
 ;; package --- Summary
 ;;; Commentary:
 ;;; Code:
-
 (setq package-enable-at-startup nil)
 (setq package--initialized t)
 ;; Silence the warning and the "temporarily setting" message
@@ -84,6 +83,7 @@
     popup
     prettier-js
     projectile
+    projectile-rails
     py-autopep8
     py-isort
     pycoverage
@@ -92,6 +92,8 @@
     python-pytest
     quelpa
     restclient
+    rubocop
+    ruby-test-mode
     smex
     sql-indent
     sqlite3
@@ -174,12 +176,6 @@
 
 
 ;; ruby
-(use-package rbenv
-  :ensure t
-  :config
-  (global-rbenv-mode)
-  ;; This ensures rbenv is ready before lsp-mode tries to find the server
-  (add-hook 'ruby-mode-hook 'rbenv-use-corresponding))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -187,29 +183,36 @@
   :config
   (exec-path-from-shell-copy-envs '("PATH" "RBENV_ROOT")))
 
+(use-package rbenv
+  :ensure t
+  :config
+  (global-rbenv-mode)
+  ;; This ensures rbenv is ready before lsp-mode tries to find the server
+  (add-hook 'ruby-mode-hook 'rbenv-use-corresponding))
+
+;; rails
+(use-package projectile-rails
+  :config
+  (projectile-rails-global-mode))
 
 
 ;; lsp
 ;; lsp-mode configuration
-(require 'lsp-mode)
-(setq lsp-keymap-prefix "C-c l")
+(use-package lsp-mode
+  :ensure t
+  :hook
+  ((ruby-mode . lsp-deferred)
+   (ruby-ts-mode . lsp-deferred))
+  :config
+  ;; Global ignored directories for the Emacs file watcher
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]log\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]tmp\\'")
 
-
-(setq lsp-solargraph-use-bundler nil) ; Stops Bundler from killing the process
-(setq lsp-ruby-lsp-use-bundler nil) 
-
-(setq lsp-ruby-lsp-enabled-features
-      ["codeActions" "diagnostics" "documentHighlights"
-       "documentSymbols" "foldingRanges" "formatting"
-       "hover" "inlayHints" "references" "rename"
-       "selectionRanges" "semanticHighlighting"
-       "signatureHelp" "typeHierarchy" "workspaceSymbol"])
-(setq lsp-enabled-clients nil)
-(setq lsp-disabled-clients '(rubocop-ls))
-
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.env\\'")
-)
+  ;; ruby
+  (setq lsp-sorbet-as-add-on t)
+  (setq lsp-headerline-breadcrumb-enable nil)
+  :commands lsp)
 
 (add-hook 'ruby-mode-hook #'lsp)
 (add-hook 'ruby-ts-mode-hook #'lsp)
@@ -296,6 +299,10 @@
 (require 'blacken)
 (add-hook 'python-mode-hook 'blacken-mode)
 
+
+;; rubocop
+(setq rubocop-autocorrect-on-save t)
+(add-hook 'ruby-mode-hook #'rubocop-mode)
 
 
 ;; .env files bricolage.
@@ -659,11 +666,11 @@ by using nxml's indentation rules."
 
 
 ;; claude-code-ide
-;; (use-package claude-code-ide
-;;   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-;;   :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
-;;   :config
-;;   (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+  :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
+  :config
+  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
 
 
 ;; gemini cli
@@ -721,6 +728,27 @@ by using nxml's indentation rules."
   (add-to-list 'grep-find-ignored-directories ".git")
   (add-to-list 'grep-find-ignored-directories "dist")
   (add-to-list 'grep-find-ignored-directories "__pycache__"))
+
+
+;; rails-model-inspect
+(use-package rails-model-inspect
+  :straight (:host github :repo "vlagorsse/emacs-rails-model-inspect")
+)
+
+;; ruby-test-mode
+(require 'transient)
+(require 'ruby-test-mode)
+
+(transient-define-prefix ruby-test-dispatch ()
+  "Transient menu for Ruby testing."
+  [:description "Test Actions"
+   ("t" "Test at Point" ruby-test-run-at-point)
+   ("f" "Test Current File" ruby-test-run)])
+
+
+;; magit-status
+;; conflicts with projectile-rails
+(global-set-key (kbd "C-x g") 'magit-status)
 
 
 ;; (require 'private_config)
