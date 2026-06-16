@@ -72,6 +72,7 @@
     lsp-ui
     lua-mode
     magit
+    magit-gh
     markdown-mode
     material-theme
     move-dup
@@ -98,7 +99,6 @@
     sql-indent
     sqlite3
     terraform-mode
-    tree-sitter-langs
     use-package
     vlf
     vterm
@@ -134,6 +134,11 @@
       kept-old-versions 5    ; and how many of the old
 )
 
+
+;; server-start
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;; elisp
 (require 'elisp-format)
@@ -195,6 +200,18 @@
   :config
   (projectile-rails-global-mode))
 
+(with-eval-after-load 'inf-ruby
+  ;; A completely dynamic regex: matches any line ending with "> " or ">> "
+  (setq inf-ruby-first-prompt-pattern "^.*\\([ ]\\|([^)]+)\\)[0-9:]*> *")
+  (setq inf-ruby-prompt-pattern "^.*\\([ ]\\|([^)]+)\\)[0-9:]*> *"))
+
+(with-eval-after-load 'comint
+  ;; Bind matching inputs
+  (define-key comint-mode-map (kbd "<up>") 'comint-previous-matching-input-from-input)
+  (define-key comint-mode-map (kbd "<down>") 'comint-next-matching-input-from-input))
+
+
+(add-to-list 'auto-mode-alist '("\\.arb\\'" . ruby-mode))
 
 ;; lsp
 ;; lsp-mode configuration
@@ -210,16 +227,36 @@
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]tmp\\'")
 
   ;; ruby
-  (setq lsp-sorbet-as-add-on t)
+  ;; (setq lsp-sorbet-as-add-on t)
   (setq lsp-headerline-breadcrumb-enable nil)
   :commands lsp)
 
+;; lsp-rename hack
+(defun my/lsp--safe-apply-workspace-edit (orig-fn edit &rest args)
+  "Handle malformed workspace edit responses from LSP servers."
+  (let ((edit (if (listp edit) (car edit) edit)))
+    (cond
+     ;; Not a hash-table at all (e.g. empty array [] from server)
+     ((not (hash-table-p edit))
+      (message "lsp-rename: server returned no changes (%S)" edit))
+     ;; Both `changes` and `documentChanges` present — drop `changes`
+     ((and (gethash "documentChanges" edit) (gethash "changes" edit))
+      (remhash "changes" edit)
+      (apply orig-fn edit args))
+     ;; Normal case
+     (t
+      (apply orig-fn edit args)))))
+
+(advice-remove 'lsp--apply-workspace-edit #'my/lsp--safe-apply-workspace-edit)
+(advice-add 'lsp--apply-workspace-edit :around #'my/lsp--safe-apply-workspace-edit)
+
+(add-hook 'go-ts-mode-hook #'lsp)
+(add-hook 'js-mode-hook #'lsp)
+(add-hook 'python-mode-hook #'lsp)
 (add-hook 'ruby-mode-hook #'lsp)
 (add-hook 'ruby-ts-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'lsp)
-(add-hook 'js-mode-hook #'lsp)
-(add-hook 'go-ts-mode-hook #'lsp)
-
+(add-hook 'tsx-ts-mode-hook #'lsp)
+(add-hook 'typescript-ts-mode-hook #'lsp)
 
 
 (require 'lsp-ui)
@@ -272,14 +309,13 @@
 
 
 ;; tree-sitter
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
 (setq treesit-language-source-alist
       '((go "https://github.com/tree-sitter/tree-sitter-go" "v0.21.0")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.0.2")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 (setq treesit-extra-load-path (list (expand-file-name "~/.emacs.d/tree-sitter")))
-(global-tree-sitter-mode)
 
 
 ;; vterm
@@ -401,8 +437,17 @@
 
 
 ;; markdown
+(setq flycheck-disabled-checkers '(markdown-mdl))
 (custom-set-variables
   '(markdown-command "pandoc"))
+
+;; md-mermaid
+(use-package md-mermaid
+  :straight (:host github :repo "ahmetus/md-mermaid")
+  :commands (md-mermaid-render-current
+             md-mermaid-preview-last-svg
+             md-mermaid-transient))
+
 
 ;; javascript
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
@@ -459,7 +504,7 @@ by using nxml's indentation rules."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 113 :width normal))))
+ '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 120 :width normal))))
  '(region ((t (:background "black" :inverse-video t)))))
 
 
@@ -631,6 +676,10 @@ by using nxml's indentation rules."
             (keymap-set magit-blame-read-only-mode-map
                         "S" #'difftastic-magit-show)))
 
+(use-package magit-gh
+  :ensure t
+  :after magit)
+
 
 ;; safe variables
 (add-to-list 'safe-local-variable-values '(gac-automatically-push-p . t))
@@ -666,12 +715,21 @@ by using nxml's indentation rules."
 
 
 ;; claude-code-ide
-(use-package claude-code-ide
-  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-  :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
-  :config
-  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+;; (use-package claude-code-ide
+;;   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+;;   :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
+;;   :config
+;;   (claude-code-ide-emacs-tools-setup) ; Optionally enable Emacs MCP tools
+;;   :init
+;;   (setq claude-code-ide-use-side-window nil))
 
+
+;; (use-package agent-shell
+;;     :ensure t
+;;     :ensure-system-package
+;;     ;; Add agent installation configs here
+;;     ((claude . "npm install -g claude-code")
+;;      (claude-agent-acp . "npm install -g @agentclientprotocol/claude-agent-acp")))
 
 ;; gemini cli
 
