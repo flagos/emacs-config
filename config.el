@@ -229,6 +229,7 @@
   ;; ruby
   ;; (setq lsp-sorbet-as-add-on t)
   (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-ruby-lsp-use-bundler t)
   :commands lsp)
 
 ;; lsp-rename hack
@@ -715,13 +716,13 @@ by using nxml's indentation rules."
 
 
 ;; claude-code-ide
-;; (use-package claude-code-ide
-;;   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-;;   :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
-;;   :config
-;;   (claude-code-ide-emacs-tools-setup) ; Optionally enable Emacs MCP tools
-;;   :init
-;;   (setq claude-code-ide-use-side-window nil))
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+  :bind ("C-c c" . claude-code-ide-menu) ; Set your favorite keybinding
+  :config
+  (claude-code-ide-emacs-tools-setup) ; Optionally enable Emacs MCP tools
+  :init
+  (setq claude-code-ide-use-side-window nil))
 
 
 ;; (use-package agent-shell
